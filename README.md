@@ -13,7 +13,7 @@ A proof-of-concept Human Resources management system built with Vue.js 3 and Boo
 
 ## Key Features
 
-- **Employee Management** - Centralised employee database with 15+ South African dummy records
+- **Employee Management** - Centralised employee database
 - **Time-Off Requests** - Digital submission with Approve/Reject workflow
 - **Payroll Automation** - Real-time calculations
 - **Payslip Generation** - Detailed breakdown with deductions (UIF, SDL, Medical Aid, Pension)
@@ -40,13 +40,12 @@ src/
 
 ```
 
-## Setup Instructions
-
-### Installation
+## Installation
 
 ```bash
 # Clone the repository
-cd
+git clone https://github.com/MKSwartz/LCA-CoreProject-ModernTechSolutions.git
+cd LCA-CoreProject-ModernTechSolutions
 
 # Install dependencies
 npm install
@@ -56,9 +55,9 @@ npm run dev
 
 # Build for production
 npm run build
-Load Bootstrap via CDN
-Bootstrap is loaded via CDN in index.html:
 
+#Load Bootstrap via CDN
+#Bootstrap is loaded via CDN in index.html:
 html
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
