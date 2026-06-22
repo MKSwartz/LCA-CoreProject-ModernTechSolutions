@@ -1,8 +1,8 @@
-markdown
-
 # ModernTech Solutions: HR Management Dashboard
 
 A proof-of-concept Human Resources management system built with Vue.js 3 and Bootstrap, demonstrating centralised employee data, automated payroll, and streamlined time-off management.
+
+![Screenshot](Screenshot.png)
 
 ## Technologies Used
 
