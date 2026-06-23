@@ -53,7 +53,7 @@ onMounted(() => {
     <Header />
 
     <main class="container py-4">
-      <!-- Dashboard stats row with ZAR currency -->
+      <!-- Dashboard stats row -->
       <div class="row g-3 mb-4">
         <div class="col-6 col-md-3">
           <div class="stat-card d-flex align-items-center">

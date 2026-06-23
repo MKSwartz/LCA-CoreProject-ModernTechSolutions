@@ -1,9 +1,5 @@
-// Manages employee data only - clean separation of concerns
-// Contains dummy data and basic CRUD operations
-
 import { ref } from "vue";
 
-// Helper to generate unique IDs
 let idCounter = 100;
 
 // 15 dummy employee records

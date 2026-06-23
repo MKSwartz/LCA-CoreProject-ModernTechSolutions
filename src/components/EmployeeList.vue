@@ -1,4 +1,3 @@
-<!-- Displays all employees-->
 <script setup>
 defineProps({
   employees: {

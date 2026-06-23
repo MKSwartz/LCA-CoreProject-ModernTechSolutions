@@ -1,6 +1,5 @@
-<!-- Manages time off requests with approve/reject actions -->
 <script setup>
-// TimeOffRequests component with approve/reject actions
+// TimeOffRequests with approve/reject actions
 
 import { ref, computed } from "vue";
 
@@ -19,12 +18,10 @@ const props = defineProps({
 
 const emit = defineEmits(["approve", "reject", "add"]);
 
-// Computed: count of pending requests
 const pendingCount = computed(() => {
   return props.requests.filter((r) => r.status === "pending").length;
 });
 
-// New request form state
 const newRequest = ref({
   employeeName: "",
   type: "Vacation",
@@ -32,24 +29,20 @@ const newRequest = ref({
   end: "",
 });
 
-// Format date for display (YYYY-MM-DD to readable)
 const formatDate = (dateStr) => {
   if (!dateStr) return "";
   const parts = dateStr.split("-");
   return `${parts[1]}/${parts[2]}/${parts[0]}`;
 };
 
-// Handle approve action - emit to parent
 const handleApprove = (id) => {
   emit("approve", id);
 };
 
-// Handle reject action - emit to parent
 const handleReject = (id) => {
   emit("reject", id);
 };
 
-// Handle add request - emit to parent
 const handleAddRequest = () => {
   if (
     !newRequest.value.employeeName ||
@@ -60,7 +53,6 @@ const handleAddRequest = () => {
     return;
   }
   emit("add", { ...newRequest.value });
-  // Reset form
   newRequest.value = { employeeName: "", type: "Vacation", start: "", end: "" };
 };
 </script>

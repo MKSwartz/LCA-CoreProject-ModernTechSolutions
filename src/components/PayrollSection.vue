@@ -1,4 +1,3 @@
-<!-- Payroll summary and payslip generator -->
 <script setup>
 import { ref } from "vue";
 
@@ -72,7 +71,7 @@ const generatePayslipForSelected = () => {
         </div>
       </div>
 
-      <!-- Employee payslip generator -->
+      <!-- Payslip generator -->
       <h6 class="fw-semibold mb-3">
         <i class="bi bi-file-text me-1"></i> Generate Payslip
       </h6>

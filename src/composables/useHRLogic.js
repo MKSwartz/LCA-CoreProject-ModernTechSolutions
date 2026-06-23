@@ -1,6 +1,3 @@
-// Manages all HR business logic: time off, attendance, payroll, etc.
-// This is separate from employee data management
-
 import { ref, computed } from "vue";
 import { useEmployees } from "./useEmployees";
 
@@ -89,7 +86,7 @@ const dummyTimeOff = [
   },
 ];
 
-// Dummy attendance (checked in today)
+// Dummy attendance
 const dummyAttendance = [
   "Thabo Mokoena",
   "Lindiwe Ndlovu",
@@ -135,19 +132,16 @@ export function useHRLogic() {
   const attendanceToday = ref(dummyAttendance.length);
   const attendanceList = ref([...dummyAttendance]);
 
-  // Computed: pending requests count
   const pendingRequests = computed(() => {
     return timeOffRequests.value.filter((req) => req.status === "pending")
       .length;
   });
 
-  // Computed: approved requests count
   const approvedRequests = computed(() => {
     return timeOffRequests.value.filter((req) => req.status === "approved")
       .length;
   });
 
-  // Computed: total monthly payroll (annual salaries divided by 12)
   const totalPayroll = computed(() => {
     const totalMonthly = employees.value.reduce(
       (sum, emp) => sum + emp.salary / 12,
@@ -156,19 +150,17 @@ export function useHRLogic() {
     return formatCurrency(totalMonthly);
   });
 
-  // Computed: total monthly payroll (raw number for calculations)
+  // total monthly payroll
   const totalPayrollRaw = computed(() => {
     return employees.value.reduce((sum, emp) => sum + emp.salary / 12, 0);
   });
 
-  // Computed: average salary (annual)
+  // average salary (annual)
   const averageSalary = computed(() => {
     if (employees.value.length === 0) return 0;
     const total = employees.value.reduce((sum, emp) => sum + emp.salary, 0);
     return Math.round(total / employees.value.length);
   });
-
-  // --- Time Off Management ---
 
   const approveRequest = (requestId) => {
     const req = timeOffRequests.value.find((r) => r.id === requestId);
@@ -217,8 +209,7 @@ export function useHRLogic() {
     );
   };
 
-  // --- Attendance Management ---
-
+  // Attendance Management
   const checkInEmployee = (employeeName) => {
     if (!attendanceList.value.includes(employeeName)) {
       attendanceList.value.push(employeeName);
@@ -244,31 +235,23 @@ export function useHRLogic() {
     return [...attendanceList.value];
   };
 
-  // --- Payroll Management ---
-
+  // Payroll Management
   const generatePayslip = (employeeId) => {
     const emp = employees.value.find((e) => e.id === employeeId);
     if (!emp) return null;
 
-    // Monthly gross = annual salary / 12
     const monthlyGross = Math.round(emp.salary / 12);
 
-    // SA Tax calculations (based on annual salary)
     const monthlyTax = calculateMonthlyTax(emp.salary);
 
-    // UIF
     const uif = Math.round(monthlyGross * 0.01);
 
-    // SA Skills Development Levy
     const sdl = Math.round(monthlyGross * 0.01);
 
-    // Medical aid
     const medicalAid = Math.round(monthlyGross * 0.08);
 
-    // Retirement / Pension fund
     const pension = Math.round(monthlyGross * 0.05);
 
-    // Net pay calculation
     const totalDeductions = monthlyTax + uif + sdl + medicalAid + pension;
     const net = monthlyGross - totalDeductions;
 
@@ -288,7 +271,7 @@ export function useHRLogic() {
       generatedAt: new Date().toLocaleString("en-ZA", {
         timeZone: "Africa/Johannesburg",
       }),
-      // Formatted versions for display
+      // Formatted for display
       grossFormatted: formatCurrency(monthlyGross),
       taxFormatted: formatCurrency(monthlyTax),
       uifFormatted: formatCurrency(uif),
@@ -313,15 +296,13 @@ export function useHRLogic() {
       deptMap[emp.department].count++;
       deptMap[emp.department].total += emp.salary;
     });
-    // Add formatted totals
     Object.keys(deptMap).forEach((key) => {
       deptMap[key].totalFormatted = formatCurrency(deptMap[key].total);
     });
     return deptMap;
   };
 
-  // --- Data Persistence ---
-
+  //Data Persistence
   const saveHRData = () => {
     try {
       localStorage.setItem("hr_timeoff", JSON.stringify(timeOffRequests.value));
@@ -353,7 +334,7 @@ export function useHRLogic() {
     }
   };
 
-  // --- Statistics / Analytics ---
+  // Statistics / Analytics
 
   const getDepartmentStats = () => {
     const stats = {};
@@ -370,7 +351,6 @@ export function useHRLogic() {
       if (emp.active) stats[emp.department].active++;
       stats[emp.department].totalSalary += emp.salary;
     });
-    // Format totals
     Object.keys(stats).forEach((key) => {
       stats[key].totalSalaryFormatted = formatCurrency(stats[key].totalSalary);
     });
@@ -383,48 +363,39 @@ export function useHRLogic() {
     return Math.round((attendanceList.value.length / active) * 100);
   };
 
-  // Export currency formatter for use in components
   const formatSalary = formatCurrency;
 
   return {
-    // State
     timeOffRequests,
     attendanceToday,
     attendanceList,
 
-    // Computed
     pendingRequests,
     approvedRequests,
     totalPayroll,
     totalPayrollRaw,
     averageSalary,
 
-    // Currency formatting
     formatSalary,
     formatCurrencySimple,
 
-    // Time Off
     approveRequest,
     rejectRequest,
     addTimeOffRequest,
     getRequestsByStatus,
     getRequestsForEmployee,
 
-    // Attendance
     checkInEmployee,
     checkOutEmployee,
     getAttendanceList,
 
-    // Payroll
     generatePayslip,
     generateAllPayslips,
     getPayrollByDepartment,
 
-    // Stats
     getDepartmentStats,
     getAttendanceRate,
 
-    // Persistence
     saveHRData,
     loadHRData,
   };
