@@ -19,7 +19,7 @@ defineProps({
     >
       <span> <i class="bi bi-people me-2"></i>All Employees </span>
       <span class="badge bg-light text-secondary">
-        {{ employees.length }} active records
+        {{ employees.length }} records
       </span>
     </div>
     <div class="card-body p-0">
